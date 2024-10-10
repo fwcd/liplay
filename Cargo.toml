@@ -1,0 +1,16 @@
+[package]
+name = "liplay"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.89"
+clap = { version = "4.5.20", features = ["derive", "env"] }
+dotenvy = "0.15.7"
+ffmpeg-next = "7.1.0"
+futures = "0.3.31"
+lighthouse-client = "3.4.0"
+rand = "0.8.5"
+tokio = { version = "1.40.0", features = ["rt", "macros", "time"] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter", "std"] }
