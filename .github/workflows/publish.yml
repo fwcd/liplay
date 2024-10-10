@@ -34,4 +34,4 @@ jobs:
       id: set_url
       run: |
         version="${{ steps.version.outputs.version }}"
-        echo "env_url=https://crates.io/crates/lisnake/$version" >> "$GITHUB_OUTPUT"
+        echo "env_url=https://crates.io/crates/liplay/$version" >> "$GITHUB_OUTPUT"
