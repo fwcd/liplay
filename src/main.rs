@@ -1,20 +1,10 @@
 use anyhow::Result;
 use clap::Parser;
-use lighthouse_client::{protocol::{Authentication, Frame}, Lighthouse, TokioWebSocket, LIGHTHOUSE_URL};
+use lighthouse_client::{protocol::Authentication, Lighthouse, LIGHTHOUSE_URL};
 use tracing::info;
-use tokio::time;
-use std::time::Duration;
+use std::path::Path;
 
-async fn run(mut lh: Lighthouse<TokioWebSocket>) -> Result<()> {
-    info!("Connected to the Lighthouse server");
-
-    loop {
-        lh.put_model(Frame::fill(rand::random())).await?;
-        info!("Sent frame");
-
-        time::sleep(Duration::from_secs(1)).await;
-    }
-}
+mod player;
 
 #[derive(Parser)]
 #[command(version)]
@@ -28,6 +18,8 @@ struct Args {
     /// The server URL.
     #[arg(long, env = "LIGHTHOUSE_URL", default_value = LIGHTHOUSE_URL)]
     url: String,
+    /// The path to the file to play.
+    path: String,
 }
 
 #[tokio::main(flavor = "current_thread")]
@@ -37,7 +29,9 @@ async fn main() -> Result<()> {
 
     let args = Args::parse();
     let auth = Authentication::new(&args.username, &args.token);
-    let lh = Lighthouse::connect_with_tokio_to(&args.url, auth).await?;
 
-    run(lh).await
+    let lh = Lighthouse::connect_with_tokio_to(&args.url, auth).await?;
+    info!("Connected to the Lighthouse server");
+
+    player::run(Path::new(&args.path), lh).await
 }
