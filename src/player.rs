@@ -1,12 +1,10 @@
 extern crate ffmpeg_next as ffmpeg;
 
-use std::{path::Path, time::Duration};
+use std::path::Path;
 
 use anyhow::Result;
 use ffmpeg::{format::Pixel, frame::Video};
 use lighthouse_client::{protocol::{Color, Frame, LIGHTHOUSE_COLS, LIGHTHOUSE_ROWS}, Lighthouse, TokioWebSocket};
-use tokio::time;
-use tracing::info;
 
 // Based on https://github.com/zmwangx/rust-ffmpeg/blob/a7b50dd5f/examples/dump-frames.rs
 
@@ -45,13 +43,6 @@ pub async fn run(path: &Path, mut lh: Lighthouse<TokioWebSocket>) -> Result<()> 
                     lh.put_model(lh_frame).await?;
                 }
             }
-        }
-
-        loop {
-            lh.put_model(Frame::fill(rand::random())).await?;
-            info!("Sent frame");
-
-            time::sleep(Duration::from_secs(1)).await;
         }
     }
 
