@@ -17,6 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Install system dependencies
+      run: sudo apt-get install -y libavutil-dev
     - name: Build
       run: cargo build --verbose
     - name: Test
