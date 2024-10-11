@@ -18,7 +18,7 @@ struct Args {
     /// The server URL.
     #[arg(long, env = "LIGHTHOUSE_URL", default_value = LIGHTHOUSE_URL)]
     url: String,
-    /// The path to the file to play.
+    /// The path to the video file to play.
     path: String,
 }
 
