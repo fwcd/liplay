@@ -1,7 +1,10 @@
 [package]
 name = "liplay"
+description = "Video player for Project Lighthouse"
 version = "0.1.1"
 edition = "2021"
+license = "MIT"
+repository = "https://github.com/fwcd/liplay"
 
 [dependencies]
 anyhow = "1.0.89"
