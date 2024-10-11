@@ -50,15 +50,17 @@ pub async fn run(path: &Path, mut lh: Lighthouse<TokioWebSocket>) -> Result<()> 
 }
 
 fn video_to_lh_frame(video: Video) -> Frame {
+    assert!(video.format() == Pixel::RGB24);
+    let bytes_per_pixel = 3; // TODO: Should we read this from the format?
     let bytes = video.data(0);
     let width = video.width() as usize;
     let height = video.height() as usize;
+    let padded_width = video.stride(0) as usize / bytes_per_pixel;
 
     let mut lh_frame = Frame::empty();
     for x in 0..width.min(LIGHTHOUSE_COLS) {
         for y in 0..height.min(LIGHTHOUSE_ROWS) {
-            // TODO: Why do we need width + 4? What's going on?
-            let i = (y * (width + 4) + x) * 3;
+            let i = (y * padded_width + x) * bytes_per_pixel;
             let color = Color::new(bytes[i], bytes[i + 1], bytes[i + 2]);
             lh_frame.set(x, y, color);
         }
