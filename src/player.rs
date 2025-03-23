@@ -8,7 +8,7 @@ use lighthouse_client::{protocol::{Color, Frame, LIGHTHOUSE_COLS, LIGHTHOUSE_ROW
 
 // Based on https://github.com/zmwangx/rust-ffmpeg/blob/a7b50dd5f/examples/dump-frames.rs
 
-pub async fn run(path: &Path, mut lh: Lighthouse<TokioWebSocket>) -> Result<()> {
+pub async fn run(path: &Path, lh: Lighthouse<TokioWebSocket>) -> Result<()> {
     ffmpeg::init()?;
     
     if let Ok(mut ictx) = ffmpeg::format::input(path) {
